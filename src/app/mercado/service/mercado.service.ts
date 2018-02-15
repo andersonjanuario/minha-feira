@@ -5,6 +5,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+import { Mercado } from '../model/mercado';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -15,12 +17,15 @@ export class MercadoService {
   constructor(private http : HttpClient) { }
 
   listarMercados(){
-    return ['AA','BB','CC'];
+    return this.http.get<Mercado[]>
+    ('http://localhost:8091/exemplo.php')
+    .pipe(
+      catchError(this.handleError('teste', []))
+    );    
   }
 
   teste(){
-    return this.http.get<String[]>
-    ('http://localhost:8091/exemplo.php')
+    return this.http.get<Mercado[]>('https://api.github.com/users/seeschweiler')
     .pipe(
       catchError(this.handleError('teste', []))
     );
