@@ -19,16 +19,17 @@ export class MercadoService {
   listarMercados(){
     return this.http.get<Mercado[]>
     ('http://localhost:8091/exemplo.php')
-    .pipe(
+    /*.pipe(
       catchError(this.handleError('teste', []))
-    );    
+    )*/;    
   }
 
-  teste(){
-    return this.http.get<Mercado[]>('https://api.github.com/users/seeschweiler')
-    .pipe(
-      catchError(this.handleError('teste', []))
-    );
+  save(mercado: Mercado): Observable<Mercado> {
+    return this.http.post<Mercado>('http://localhost:8091/add.php', mercado, httpOptions)
+    /*.pipe(
+        //tap((mercado: Mercado) => this.log(`added hero w/ id=${mercado.id}`)),
+        catchError(this.handleError<Mercado>('save'))
+    )*/;
   }
 
 

@@ -10,17 +10,15 @@ export class ListarMercadoComponent implements OnInit {
 
   constructor(private mercadoService : MercadoService) {}
   mercados: any = []; 
-  teste = undefined;
 
   ngOnInit() {
-    this.mercadoService.listarMercados().subscribe(data => {
-      console.log(data);
-      this.mercados = data;
+    this.mercadoService.listarMercados().subscribe(
+      data => {
+        this.mercados = data;
+    },
+      error => {
+        console.log(error);
     });
-    //this.mercadoService.teste().subscribe(data => {
-    //  console.log(data);
-    //  this.mercados = data;
-    //});
   }
 
 }

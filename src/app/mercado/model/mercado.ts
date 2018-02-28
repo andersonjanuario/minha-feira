@@ -1,6 +1,6 @@
 export class Mercado{    
-    public nome: string;
     public id: number;
+    public nome: string;    
     public imagem: string;
     public localizacao: string;
 }
