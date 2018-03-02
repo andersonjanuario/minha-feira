@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -14,24 +13,39 @@ const httpOptions = {
 @Injectable()
 export class MercadoService {
 
+  mercado: Mercado = new Mercado();
   constructor(private http : HttpClient) { }
 
-  listarMercados(){
-    return this.http.get<Mercado[]>
-    ('http://localhost:8091/exemplo.php')
-    /*.pipe(
-      catchError(this.handleError('teste', []))
-    )*/;    
+  setMercado(m){
+    this.mercado = m;
   }
 
-  save(mercado: Mercado): Observable<Mercado> {
-    return this.http.post<Mercado>('http://localhost:8091/add.php', mercado, httpOptions)
+  getMercado(){
+    return this.mercado;
+  }
+
+  listarMercados(filter) {
+    return this.http.get<Mercado[]>
+    ('http://localhost:8091/servicomercado.php?page='+filter.page+'&size='+filter.size);    
+  }
+
+  incluir(mercado: Mercado): Observable<Mercado> {
+    return this.http.post<Mercado>('http://localhost:8091/servicomercado.php?op=add', mercado, httpOptions)
     /*.pipe(
         //tap((mercado: Mercado) => this.log(`added hero w/ id=${mercado.id}`)),
         catchError(this.handleError<Mercado>('save'))
     )*/;
   }
 
+  atualizar(mercado: Mercado): Observable<Mercado> {
+    return this.http.put<Mercado>('http://localhost:8091/servicomercado.php?op=alt', mercado, httpOptions);
+  }  
+
+  delete(mercado: Mercado): Observable<Mercado> {
+    //const id = typeof mercado === 'number' ? mercado : mercado.id;
+    //const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete<Mercado>('http://localhost:8091/servicomercado.php?op=del', httpOptions);
+  }
 
   /**
    * Handle Http operation that failed.

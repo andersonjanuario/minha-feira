@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ManterMercadoComponent } from './mercado/manter/manter-mercado.component';
 import { ListarMercadoComponent } from './mercado/listar/listar-mercado.component';
 import { MercadoService } from './mercado/service/mercado.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     ),
     HttpModule,
+    NgbModule.forRoot(),
     HttpClientModule,
     FormsModule
   ],

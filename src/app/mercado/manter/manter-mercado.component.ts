@@ -9,14 +9,17 @@ import { MercadoService } from '../service/mercado.service';
 })
 export class ManterMercadoComponent implements OnInit {
 
-  mercado: Mercado = new Mercado();
+  public mercado: Mercado = new Mercado();
   titulo : String;
   alerts : any = []; 
   constructor(private mercadoService : MercadoService) {}
   
   ngOnInit() {
     this.titulo = 'Cadastrar';
-    //this.mercado.nome = 'Teste';
+    if(this.mercadoService.getMercado() !== undefined){
+      this.mercado = this.mercadoService.getMercado();
+      this.mercadoService.setMercado(undefined);
+    }
   }
 
   limparCampos(){
@@ -24,18 +27,67 @@ export class ManterMercadoComponent implements OnInit {
   }
 
   save(m){
-    this.mercadoService.save(m).subscribe(data => {},
-      response => {
-        if(response.status === 200){
-          this.addAlert('alert-success', 'Sucesso!');
-          this.limparCampos();
-        }else if(response.status === 404){
-          this.addAlert('alert-danger', 'Serviço indisponível!');
-        }else {
-          this.addAlert('alert-danger', response.error.message);
-        }
-    });
+    this.alerts = []; 
+    if(m.id === undefined || m.id === null){
+      this.incluir(m);
+    }else{
+      this.atualizar(m);
+    }
   }
+
+  incluir(m){
+    this.mercadoService.incluir(m).subscribe(
+      data => {
+        this.addAlert('alert-success','Cadastrado com sucesso');
+        this.limparCampos();
+      },
+        response => {
+          if(response.status === 200 || response.status === 201){
+            this.addAlert('alert-success', 'Sucesso!');
+            this.limparCampos();
+          }else if(response.status === 404){
+            this.addAlert('alert-danger', 'Serviço indisponível!');
+          }else {
+            this.addAlert('alert-danger', 'Erro desconhecido!');
+          }
+      });
+  }
+
+  excluir(m){
+    this.mercadoService.atualizar(m).subscribe(
+      data => {
+        this.addAlert('alert-success','Cadastrado com sucesso');
+        this.limparCampos();
+      },
+        response => {
+          if(response.status === 200 || response.status === 201){
+            this.addAlert('alert-success', 'Sucesso!');
+            this.limparCampos();
+          }else if(response.status === 404){
+            this.addAlert('alert-danger', 'Serviço indisponível!');
+          }else {
+            this.addAlert('alert-danger', 'Erro desconhecido!');
+          }
+      });
+  }
+
+  atualizar(m){
+    this.mercadoService.atualizar(m).subscribe(
+      data => {
+        this.addAlert('alert-success','Cadastrado com sucesso');
+        this.limparCampos();
+      },
+        response => {
+          if(response.status === 200 || response.status === 201){
+            this.addAlert('alert-success', 'Sucesso!');
+            this.limparCampos();
+          }else if(response.status === 404){
+            this.addAlert('alert-danger', 'Serviço indisponível!');
+          }else {
+            this.addAlert('alert-danger', 'Erro desconhecido!');
+          }
+      });
+  }  
 
   addAlert(type, message) {
     this.alerts.push({
