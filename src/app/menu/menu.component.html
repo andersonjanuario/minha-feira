@@ -12,6 +12,8 @@
       <ul id="active" class="nav navbar-nav side-nav">
           <li class="{{selected[0]}}" (click)="checarSelected(0)"><a routerLink="/home" routerLinkActive="active"><i class="fa fa-bullseye"></i> Home</a></li>
           <li class="{{selected[1]}}" (click)="checarSelected(1)"><a routerLink="/listar-mercado"><i class="fa fa-tasks"></i>Mercados</a></li>          
+          <li class="{{selected[2]}}" (click)="checarSelected(2)"><a routerLink="/listar-item"><i class="fa fa-tasks"></i>Itens</a></li>          
+          <li class="{{selected[3]}}" (click)="checarSelected(3)"><a routerLink="/manter-compra"><i class="fa fa-tasks"></i>Compras</a></li>          
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-user">
           <!--li class="dropdown messages-dropdown">

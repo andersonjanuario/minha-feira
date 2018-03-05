@@ -11,7 +11,7 @@ export class MenuComponent implements OnInit {
   selected : any = [];
 
   ngOnInit() {
-    this.selected = ["selected", ""];
+    this.selected = ["selected", "", "", ""];
   }
 
   checarSelected(indice){

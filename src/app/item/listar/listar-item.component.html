@@ -1,0 +1,89 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 id="buttons" class="page-header">Listagem dos Itens</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              <button type="button" routerLink="/manter-item" class="btn btn-default">Cadastrar</button>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div id="shieldui-grid1" role="grid" aria-readonly="true" class="sui-grid sui-grid-core">
+            <div class="sui-gridheader">
+              <table class="sui-table">
+                <colgroup>
+                  <col style="width:170px">
+                  <col>
+                  <col>
+                  <col>
+                  <col>
+                </colgroup>
+                <thead>
+                  <tr role="row" class="sui-columnheader">
+                    <th class="sui-headercell">
+                      <a href="#" class="sui-link sui-unselectable">Código</a>
+                    </th>
+                    <th class="sui-headercell">
+                      <a href="#" class="sui-link sui-unselectable">Nome</a>
+                    </th>
+                    <th class="sui-headercell">
+                      <a href="#" class="sui-link sui-unselectable">Categoria</a>
+                    </th>
+                    <th class="sui-headercell">
+                      <a href="#" class="sui-link sui-unselectable">Marca</a>
+                    </th>
+                    <th class="sui-headercell">
+                      <a href="#" class="sui-link sui-unselectable"> - </a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="sui-hide">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="sui-gridcontent">
+              <table class="sui-table">
+                <colgroup>
+                  <col style="width:170px">
+                  <col>
+                  <col>
+                  <col>
+                  <col>
+                </colgroup>
+                <tbody>
+                  <tr class="sui-row" *ngFor="let item of itens; let i = index">
+                    <td class="sui-cell">{{item.id}}</td>
+                    <td class="sui-cell">{{item.nome}}</td>
+                    <td class="sui-cell">{{item.nome_categoria}}</td>
+                    <td class="sui-cell">{{item.marca}}</td>
+                    <td class="sui-cell cursor-pointer">
+                      <button (click)="carregarTelaAlterar(item)" class="btn btn-default">Alterar</button>
+                      <button (click)="excluir(item)" class="btn btn-danger">Excluir</button>
+                    </td>                    
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          Página {{page}} de 3 de um total de {{totalItems}} registros.
+          <p>With boundary links:</p>
+          <ngb-pagination 
+          [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="7" [rotate]="true" (pageChange)="loadPage($event)"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

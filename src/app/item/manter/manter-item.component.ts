@@ -1,43 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { Mercado } from '../model/mercado';
-import { MercadoService } from '../service/mercado.service';
+import { Item } from '../model/item';
+import { ItemService } from '../service/item.service';
+import { CategoriaService } from '../../categoria/service/categoria.service';
+import { Categoria } from '../../categoria/model/categoria';
 
 @Component({
-  selector: 'app-manter-mercado',
-  templateUrl: './manter-mercado.component.html',
-  styleUrls: ['./manter-mercado.component.css']
+  selector: 'app-manter-item',
+  templateUrl: './manter-item.component.html',
+  styleUrls: ['./manter-item.component.css']
 })
-export class ManterMercadoComponent implements OnInit {
+export class ManterItemComponent implements OnInit {
 
-  public mercado: Mercado = new Mercado();
+  public item: Item = new Item();
   titulo : String;
   alerts : any = []; 
-  constructor(private mercadoService : MercadoService) {}
+  public categorias: Categoria[];
+  constructor(private itemService : ItemService, 
+    private categoriaService : CategoriaService) {}
   
   ngOnInit() {
     this.titulo = 'Cadastrar';
-    if(this.mercadoService.getMercado() !== undefined){
-      this.mercado = this.mercadoService.getMercado();
-      this.mercadoService.setMercado(undefined);
+    if(this.itemService.getItem() !== undefined){
+      this.item = this.itemService.getItem();
+      this.itemService.setItem(undefined);
       this.titulo = 'Alterar';
     }
+    this.loadCategorias();
   }
 
   limparCampos(){
-    this.mercado = new Mercado();
+    this.item = new Item();
   }
 
-  save(m){
+  save(i){
     this.alerts = []; 
-    if(m.id === undefined || m.id === null){
-      this.incluir(m);
+    if(i.id === undefined || i.id === null){
+      this.incluir(i);
     }else{
-      this.atualizar(m);
+      this.atualizar(i);
     }
   }
 
-  incluir(m){
-    this.mercadoService.incluir(m).subscribe(
+  incluir(i){
+    this.itemService.incluir(i).subscribe(
       data => {
         this.addAlert('alert-success','Cadastrado com sucesso');
         this.limparCampos();
@@ -54,8 +59,8 @@ export class ManterMercadoComponent implements OnInit {
       });
   }
 
-  atualizar(m){
-    this.mercadoService.atualizar(m).subscribe(
+  atualizar(i){
+    this.itemService.atualizar(i).subscribe(
       data => {
         this.addAlert('alert-success','Atualizado com sucesso');        
       },
@@ -82,5 +87,15 @@ export class ManterMercadoComponent implements OnInit {
     this.alerts.splice(index, 1);
   }
 
+
+  loadCategorias() {
+    this.categoriaService.listarAll().subscribe(
+      resp  => {
+        this.categorias = resp;                  
+    },
+      error => {
+        console.log(error);
+    });
+  } 
 
 }

@@ -11,12 +11,24 @@ import { ManterMercadoComponent } from './mercado/manter/manter-mercado.componen
 import { ListarMercadoComponent } from './mercado/listar/listar-mercado.component';
 import { MercadoService } from './mercado/service/mercado.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ListarItemComponent } from './item/listar/listar-item.component';
+import { ManterItemComponent } from './item/manter/manter-item.component';
+import { ItemService } from './item/service/item.service';
+import { CategoriaService } from './categoria/service/categoria.service';
+import { ManterCompraComponent } from './compra/manter/manter-compra.component';
+import { ListarCompraComponent } from './compra/listar/listar-compra.component';
+import { CompraService } from './compra/service/compra.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'manter-mercado', component: ManterMercadoComponent },
-  { path: 'listar-mercado', component: ListarMercadoComponent }
+  { path: 'listar-mercado', component: ListarMercadoComponent },
+  { path: 'listar-item', component: ListarItemComponent },
+  { path: 'manter-item', component: ManterItemComponent },
+  { path: 'listar-compra', component: ListarCompraComponent },
+  { path: 'manter-compra', component: ManterCompraComponent }
+
 ];
 
 @NgModule({
@@ -25,7 +37,11 @@ const appRoutes: Routes = [
     MenuComponent,
     HomeComponent,
     ManterMercadoComponent,
-    ListarMercadoComponent
+    ListarMercadoComponent,
+    ListarItemComponent,
+    ManterItemComponent,
+    ManterCompraComponent,
+    ListarCompraComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +54,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule
   ],
-  providers: [MercadoService],
+  providers: [MercadoService, ItemService, CategoriaService, CompraService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

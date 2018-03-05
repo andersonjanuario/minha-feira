@@ -33,6 +33,10 @@ export class MercadoService {
     ('http://localhost:8091/servicomercado.php?page='+filter.page+'&size='+filter.size,  { observe: 'response' });    
   }
 
+  listarAll() {
+    return this.http.get<Mercado[]>('http://localhost:8091/servicomercado.php'+'?op=all');    
+  }
+
   incluir(mercado: Mercado): Observable<Mercado> {
     return this.http.post<Mercado>('http://localhost:8091/servicomercado.php?op=add', mercado, httpOptions)
     /*.pipe(
