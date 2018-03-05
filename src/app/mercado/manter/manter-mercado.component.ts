@@ -53,29 +53,10 @@ export class ManterMercadoComponent implements OnInit {
       });
   }
 
-  excluir(m){
-    this.mercadoService.atualizar(m).subscribe(
-      data => {
-        this.addAlert('alert-success','Cadastrado com sucesso');
-        this.limparCampos();
-      },
-        response => {
-          if(response.status === 200 || response.status === 201){
-            this.addAlert('alert-success', 'Sucesso!');
-            this.limparCampos();
-          }else if(response.status === 404){
-            this.addAlert('alert-danger', 'Serviço indisponível!');
-          }else {
-            this.addAlert('alert-danger', 'Erro desconhecido!');
-          }
-      });
-  }
-
   atualizar(m){
     this.mercadoService.atualizar(m).subscribe(
       data => {
-        this.addAlert('alert-success','Cadastrado com sucesso');
-        this.limparCampos();
+        this.addAlert('alert-success','Atualizado com sucesso');        
       },
         response => {
           if(response.status === 200 || response.status === 201){

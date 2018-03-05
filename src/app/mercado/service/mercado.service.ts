@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { RequestMethod } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
 import { Mercado } from '../model/mercado';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+headers: new HttpHeaders({ 'Content-Type': 'application/json',
+                           'Accept': 'text/plain' })
 };
 
 @Injectable()
@@ -24,9 +27,10 @@ export class MercadoService {
     return this.mercado;
   }
 
+
   listarMercados(filter) {
     return this.http.get<Mercado[]>
-    ('http://localhost:8091/servicomercado.php?page='+filter.page+'&size='+filter.size);    
+    ('http://localhost:8091/servicomercado.php?page='+filter.page+'&size='+filter.size,  { observe: 'response' });    
   }
 
   incluir(mercado: Mercado): Observable<Mercado> {
@@ -44,7 +48,7 @@ export class MercadoService {
   delete(mercado: Mercado): Observable<Mercado> {
     //const id = typeof mercado === 'number' ? mercado : mercado.id;
     //const url = `${this.heroesUrl}/${id}`;
-    return this.http.delete<Mercado>('http://localhost:8091/servicomercado.php?op=del', httpOptions);
+    return this.http.delete<Mercado>('http://localhost:8091/servicomercado.php?op=del&id='+mercado.id, httpOptions);
   }
 
   /**

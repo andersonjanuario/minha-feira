@@ -8,8 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class MenuComponent implements OnInit {
 
   constructor() { }
+  selected : any = [];
 
   ngOnInit() {
+    this.selected = ["selected", ""];
+  }
+
+  checarSelected(indice){
+    for(var i=0; i < this.selected.length; i++){
+      this.selected[i] = "";        
+    }
+    this.selected[indice] = "selected";        
   }
 
 }

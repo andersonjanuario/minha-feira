@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MercadoService } from '../service/mercado.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-listar-mercado',
   templateUrl: './listar-mercado.component.html',
@@ -9,11 +10,6 @@ import { Router } from '@angular/router';
 })
 
 export class ListarMercadoComponent implements OnInit {
-
-
-  //[collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="7" [rotate]="true" (pageChange)="loadPage($event)"
-
-
 
   constructor(private mercadoService : MercadoService,
     private router: Router) {}
@@ -31,16 +27,20 @@ export class ListarMercadoComponent implements OnInit {
         this.loadData();
       }
     }
-    
+
     loadData() {
       this.mercadoService.listarMercados({
         page: this.page - 1,
         size: this.itemsPerPage
       }).subscribe(
         resp  => {
-          this.mercados = resp ;
-          //var x = //resp.headers;
-          this.totalItems = 27;
+          this.mercados = resp.body["mercado"];          
+          this.totalItems = parseInt(resp.body["total"]);          
+          /*if(resp.headers.get('X-Total-Registros') !== null && resp.headers.get('X-Total-Registros') !== undefined){
+            this.totalItems = parseInt(resp.headers.get('X-Total-Registros'));
+          }else{
+            this.totalItems = 27;
+          }*/
       },
         error => {
           console.log(error);
@@ -49,14 +49,17 @@ export class ListarMercadoComponent implements OnInit {
     //Paginacao
 
   ngOnInit() {
-    this.loadData();
-    /*this.mercadoService.listarMercados(page: (this.page - 1), size: this.itemsPerPage).subscribe(
-      data => {
-        this.mercados = data;
+    this.loadData();    
+  }
+
+  excluir(m){
+    this.mercadoService.delete(m).subscribe(
+      resp  => {
+        this.loadData();
     },
       error => {
         console.log(error);
-    });*/
+    });;
   }
 
   carregarTelaAlterar(m){
