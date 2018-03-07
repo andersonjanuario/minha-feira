@@ -102,16 +102,6 @@ switch ($_GET["op"]) {
 			mysqli_set_charset($conexao,"utf8");
 			mysqli_select_db($conexao,"compras") or die ("Nao foi possivel selecionar o banco de dados");
 
-			//TOTAL
-			$total = 0;
-            $sql = "SELECT  COUNT(`id`) as count FROM `mercado`";
-            
-            $query = mysqli_query($conexao, $sql) or die('Erro na execução do get Total!');
-            while ($objItem = mysqli_fetch_object($query)) {
-                $total = $objItem;
-            }
-			header('X-Total-Registros: '.$total->count);
-			
 			//LISTAGEM
 			$sql = "SELECT * FROM `mercado` ";
 			
@@ -122,11 +112,7 @@ switch ($_GET["op"]) {
 				$array[] = $objItem;            
 			}
 			
-			$retorno->total = $total->count;
-			$retorno->mercado = $array;
-			echo json_encode($retorno);				
-			
-			//echo json_encode($array);				
+			echo json_encode($array);				
 			
 			mysqli_close($conexao);
 			

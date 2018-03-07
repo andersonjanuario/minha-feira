@@ -4,6 +4,7 @@ import { Compra } from '../model/compra';
 import { ItemService } from '../../item/service/item.service';
 import { Mercado } from '../../mercado/model/mercado';
 import { MercadoService } from '../../mercado/service/mercado.service';
+import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 
 @Component({
   selector: 'app-manter-compra',
@@ -13,19 +14,24 @@ import { MercadoService } from '../../mercado/service/mercado.service';
 export class ManterCompraComponent implements OnInit {
 
   public compra: Compra = new Compra();
-  //public mercado: Mercado = new Mercado();
   
+  //Listagem dos combos
   public mercados : Mercado[];
   public itens : Item[];
+
   public titulo : String;
-  public alerts : any = []; 
+  public alerts : any = [];
   
+  //Objetos auxiliares
+  private item: Item;
+  private mercado: Mercado; 
   
   
   constructor(private itemService : ItemService, 
     private mercadoService : MercadoService) {}
   
   ngOnInit() {
+    this.compra.itens = [];
     this.titulo = 'Cadastrar';
     /*if(this.itemService.getItem() !== undefined){
       this.item = this.itemService.getItem();
@@ -63,6 +69,18 @@ export class ManterCompraComponent implements OnInit {
       });
   } 
 
+  adicionarItem(){
+    if(this.compra.quantidade !== undefined){
+      var total = this.compra.preco * this.compra.quantidade;  
+      this.item.preco = total;
+    }
+    this.compra.quantidade = 1;
+    this.compra.preco = 0;
+    let copy = Object.assign({}, this.item); //copy object in angularIo
+    this.compra.itens.push(copy);
+    this.item = new Item();
+  }
+
   addAlert(type, message) {
     this.alerts.push({
         "type": type,
@@ -77,7 +95,8 @@ export class ManterCompraComponent implements OnInit {
   loadItens() {
     this.itemService.listarAll().subscribe(
       resp  => {
-        this.itens = resp;                  
+        this.itens = resp;                 
+        console.log(resp); 
     },
       error => {
         console.log(error);
@@ -88,6 +107,7 @@ export class ManterCompraComponent implements OnInit {
     this.mercadoService.listarAll().subscribe(
       resp  => {
         this.mercados = resp;                  
+        console.log(resp);
     },
       error => {
         console.log(error);

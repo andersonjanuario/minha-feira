@@ -6,4 +6,5 @@ export class Compra {
     public itens: Item[];
     public preco: number;
     public data: Date;
+    public quantidade: number;
 }

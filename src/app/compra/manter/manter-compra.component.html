@@ -1,36 +1,120 @@
 <div id="page-wrapper">
-  <!--form [formGroup]="form"-->
-      <div class="row">
-          <div class="col-lg-12">
-          <h1 id="buttons" class="page-header">{{titulo}} Compra</h1>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-lg-12" >
-              <div class="alert alert-dismissable {{alert.type}}" *ngFor="let alert of alerts; let i = index" >
-                  <button type="button" class="close" 
-                  (click)="closeAlert($index)" >&times;</button>
-                  {{alert.msg}}
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-lg-6">
-              <div class="form-group">
-                  <label>Mercado</label>
-                  <select [(ngModel)]="compra.id_categoria" class="form-control">
+    <!--form [formGroup]="form"-->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="buttons" class="page-header">{{titulo}} Compra</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-dismissable {{alert.type}}" *ngFor="let alert of alerts; let i = index">
+                <button type="button" class="close" (click)="closeAlert($index)">&times;</button>
+                {{alert.msg}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Mercado</label>
+                <select [(ngModel)]="mercado" class="form-control">
                     <option *ngFor="let m of mercados" [ngValue]="m">{{m.id}} - {{m.nome}}</option>
-                  </select>
-              </div>
-              <div class="form-group">
-                <label>Item</label>
-                <select [(ngModel)]="compra.item" class="form-control">
-                  <option *ngFor="let i of itens" [ngValue]="i">{{i.id}} - {{i.nome}} - {{i.marca}}</option>
                 </select>
             </div>
-              <button type="button" (click)="save(compra)" class="btn btn-primary">Salvar</button>
-              <button type="reset" routerLink="/listar-compra" class="btn btn-danger">Cancelar</button>
-          </div>
-      </div>
-  <!--/form-->
+            <div class="form-group">
+                <label>Item</label>
+                <select [(ngModel)]="item" class="form-control">
+                    <option *ngFor="let i of itens" [ngValue]="i">{{i.id}} - {{i.nome}} - {{i.marca}}</option>
+                </select>
+            </div>
+            <div class="col-lg-6" style="padding-left: 0px;">
+                <div class="form-group">
+                    <label>Preço</label>
+                    <input class="form-control" [(ngModel)]="compra.preco">
+                </div>
+            </div>
+            <div class="col-lg-6" style="padding-right:  0px;">
+                <div class="form-group">
+                    <label>Quantidade</label>
+                    <input class="form-control" [(ngModel)]="compra.quantidade">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <ul class="pager">
+                <li class="previous">
+                    <a (click)="adicionarItem()">+</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="shieldui-grid1" role="grid" aria-readonly="true" class="sui-grid sui-grid-core">
+                <div class="sui-gridheader">
+                    <table class="sui-table">
+                        <colgroup>
+                            <col style="width:170px">
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                            <tr role="row" class="sui-columnheader">
+                                <th class="sui-headercell">
+                                    <a href="#" class="sui-link sui-unselectable">Código</a>
+                                </th>
+                                <th class="sui-headercell">
+                                    <a href="#" class="sui-link sui-unselectable">Nome</a>
+                                </th>
+                                <th class="sui-headercell">
+                                    <a href="#" class="sui-link sui-unselectable">Preço</a>
+                                </th>
+                                <th class="sui-headercell">
+                                    <a href="#" class="sui-link sui-unselectable"> - </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="sui-hide">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="sui-gridcontent">
+                    <table class="sui-table">
+                        <colgroup>
+                            <col style="width:170px">
+                            <col>
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr class="sui-row" *ngFor="let item of compra.itens; let i = index">
+                                <td class="sui-cell">{{item.id}}</td>
+                                <td class="sui-cell">{{item.nome}}</td>
+                                <td class="sui-cell">{{item.preco}}</td>
+                                <td class="sui-cell cursor-pointer">
+                                    <button (click)="excluir(item)" class="btn btn-danger">Excluir</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <button type="button" (click)="save(compra)" class="btn btn-primary">Salvar</button>
+            <button type="reset" routerLink="/listar-compra" class="btn btn-danger">Cancelar</button>
+        </div>
+    </div>
+    <!--/form-->
 </div>
